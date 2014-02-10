@@ -7,7 +7,7 @@ DESCRIPTION:  This class is to create a table
 """
 
 import sqlite3 as sql
-import abc
+from abc import ABCMeta
 
 class Table(object):
 
@@ -50,7 +50,7 @@ class ProductTable(Table):
     def __init__(self):
         super(ProductTable, self).__init__('products')
         super(ProductTable, self).add_cols(dict([ \
-                ('_id', 'INT PRIMARY KEY'), \
+                ('_id', 'INTEGER PRIMARY KEY'), \
                 ('product', 'TEXT'), \
                 ('producer', 'TEXT'), \
                 ('product_class', 'TEXT'), \
@@ -62,13 +62,13 @@ class MetaTable(Table):
 
     def __init__(self, table_name):
         super(MetaTable, self).__init__(table_name)
-        super(MetaTable, self).set_cols(dict([('product_id', \
-                'INT REFERENCES Products(_id)')]))
+        super(MetaTable, self).set_cols(dict([( \
+            'product_id', 'INTEGER REFERENCES products(_id) ON DELETE CASCADE')]))
 
 class BeerTable(MetaTable):
 
-    def __init__(self):
-        super(BeerTable, self).__init__('beer')
+    def __init__(self, table_name):
+        super(BeerTable, self).__init__(table_name)
         super(BeerTable, self).add_cols(dict([ \
                 ('abv', 'INT') \
                 ]))
@@ -76,40 +76,44 @@ class BeerTable(MetaTable):
 
 class CoffeeTable(MetaTable):
 
-    def __init__(self):
-        super(CoffeeTable, self).__init__('coffee_bean')
+    def __init__(self, table_name):
+        super(CoffeeTable, self).__init__(table_name)
         super(CoffeeTable, self).add_cols(dict([ \
                 ('country', 'TEXT') \
                 ]))
         super(CoffeeTable, self.build_table_def())
 
 class ChocolateTable(MetaTable):
-    def __init__(self):
-        super(ChocolateTable, self).__init__('chocolate')
+
+    def __init__(self, table_name):
+        super(ChocolateTable, self).__init__(table_name)
         super(ChocolateTable, self).add_cols(dict([ \
                 ('cacoa', 'INT') \
                 ]))
         super(ChocolateTable, self.build_table_def())
 
 class WineTable(MetaTable):
-    def __init__(self):
-        super(WineTable, self).__init__('wine')
+
+    def __init__(self, table_name):
+        super(WineTable, self).__init__(table_name)
         super(WineTable, self).add_cols(dict([ \
                 ('vintage', 'INT') \
                 ]))
         super(WineTable, self.build_table_def())
 
 class SpiritsTable(MetaTable):
-    def __init__(self):
-        super(SpiritsTable, self).__init__('spirits')
+
+    def __init__(self, table_name):
+        super(SpiritsTable, self).__init__(table_name)
         super(SpiritsTable, self).add_cols(dict([ \
                 ('age', 'INT') \
                 ]))
         super(SpiritsTable, self.build_table_def())
 
 class TeaTable(MetaTable):
-    def __init__(self):
-        super(TeaTable, self).__init__('tea')
+
+    def __init__(self, table_name):
+        super(TeaTable, self).__init__(table_name)
         super(TeaTable, self).add_cols(dict([ \
                 ('age', 'INT') \
                 ]))

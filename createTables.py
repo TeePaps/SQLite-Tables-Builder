@@ -17,7 +17,6 @@ config.read('settings.config')
 
 DB_VERSION = config.get('sqlite', 'db_version')
 DB_NAME = config.get('sqlite', 'db_name')
-DB_TABLES = config.get('sqlite', 'tables')
 
 con = sql.connect('test1.db')
 sql.connect
@@ -26,12 +25,13 @@ with con:
     cur = con.cursor()
 
     ProductTable().create_table(cur)
-    BeerTable().create_table(cur)
-    CoffeeTable().create_table(cur)
-    ChocolateTable().create_table(cur)
-    WineTable().create_table(cur)
-    SpiritsTable().create_table(cur)
-    TeaTable().create_table(cur)
+    BeerTable(config.get('sqlite', 'beer table')).create_table(cur)
+    CoffeeTable(config.get('sqlite', 'coffee table')).create_table(cur)
+    ChocolateTable(config.get('sqlite', 'chocolate table')).create_table(cur)
+    WineTable(config.get('sqlite', 'wine table')).create_table(cur)
+    SpiritsTable(config.get('sqlite', 'spirits table')).create_table(cur)
+    TeaTable(config.get('sqlite', 'tea table')).create_table(cur)
 
+    cur.execute("INSERT INTO products(product) VALUES ('cat');")
     con.commit()
 
